@@ -1,2 +1,7 @@
 .idea
 venv
+.vscode/settings.json
+greenweez/greenweez/__pycache__/__init__.cpython-37.pyc
+greenweez/greenweez/__pycache__/settings.cpython-37.pyc
+greenweez/greenweez/spiders/__pycache__/__init__.cpython-37.pyc
+greenweez/greenweez/spiders/__pycache__/spider.cpython-37.pyc
