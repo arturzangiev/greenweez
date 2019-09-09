@@ -187,7 +187,7 @@ class SpiderSpider(scrapy.Spider):
     ]
 
     def parse(self, response):
-        urls = response.xpath('//div[@class="rayon_img"]/div[@class="titre"]/a/@href').extract()
+        urls = response.xpath('//a[@class="font-family-sb font-size-15"]/@href').extract()
         for url in urls:
             yield scrapy.Request(url, callback=self.individual_page)
 
@@ -198,11 +198,11 @@ class SpiderSpider(scrapy.Spider):
 
     def individual_page(self, response):
         fields = dict()
-        fields["base_price"] = response.xpath('//div[@class="prix_barre"]/text()').re_first('(\d+\,\d+)')
-        fields["discounted_price"] = response.xpath('//div[@class="fp_price_tag"]/text()').re_first('(\d+\,\d+)')
-        fields["product_name"] = response.xpath('//h1/span/text()').extract_first()
-        fields["category"] = response.xpath('//div[@class="fil_ariane_txt"]/ul/li/a[@class="fleche_souligne"]/span/text()').extract()
-        fields["brand"] = response.xpath('//h1/a/text()').extract_first()
-        fields["description"] = response.xpath('//div[@class="fp_txt"]/span/p/text()').extract_first()
+        fields["base_price"] = response.xpath('//div[@id="fp_col_price"]/span[@class="font-size-18 font-family-medium font-color-turquoise-green line-through"]/text()').re_first('(\d+\,\d+)')
+        fields["discounted_price"] = response.xpath('//div[@id="fp_col_price"]/meta[@itemprop="price"]/@content').extract_first()
+        fields["product_name"] = response.xpath('//h1/text()').extract_first()
+        fields["category"] = response.xpath('//nav[@id="fil_ariane"]/ol/li/a/span/text()').extract()[-2]
+        fields["brand"] = response.xpath('//meta[@itemprop="brand"]/@content').extract_first()
+        fields["description"] = response.xpath('//meta[@name="description"]/@content').extract_first()
 
         yield fields
